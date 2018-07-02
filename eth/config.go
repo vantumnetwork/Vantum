@@ -65,9 +65,9 @@ func init() {
 		}
 	}
 	if runtime.GOOS == "windows" {
-		DefaultConfig.Ethash.DatasetDir = filepath.Join(home, "AppData", "Pirl")
+		DefaultConfig.Ethash.DatasetDir = filepath.Join(home, "AppData", "Vantum")
 	} else {
-		DefaultConfig.Ethash.DatasetDir = filepath.Join(home, ".pirl")
+		DefaultConfig.Ethash.DatasetDir = filepath.Join(home, ".vantum")
 	}
 }
 

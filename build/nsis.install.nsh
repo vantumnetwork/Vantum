@@ -1,4 +1,4 @@
-Name "pirl ${MAJORVERSION}.${MINORVERSION}.${BUILDVERSION}" # VERSION variables set through command line arguments
+Name "vantum ${MAJORVERSION}.${MINORVERSION}.${BUILDVERSION}" # VERSION variables set through command line arguments
 InstallDir "$InstDir"
 OutFile "${OUTPUTFILE}" # set through command line arguments
 
@@ -12,30 +12,30 @@ PageEx license
   LicenseData {{.License}}
 PageExEnd
 
-# Install pirl binary
-Section "Pirl" GETH_IDX
+# Install vantum binary
+Section "Vantum" GETH_IDX
   SetOutPath $INSTDIR
-  file {{.Pirl}}
+  file {{.Vantum}}
 
   # Create start menu launcher
   createDirectory "$SMPROGRAMS\${APPNAME}"
-  createShortCut "$SMPROGRAMS\${APPNAME}\${APPNAME}.lnk" "$INSTDIR\pirl.exe" "--fast" "--cache=512"
-  createShortCut "$SMPROGRAMS\${APPNAME}\Attach.lnk" "$INSTDIR\pirl.exe" "attach" "" ""
+  createShortCut "$SMPROGRAMS\${APPNAME}\${APPNAME}.lnk" "$INSTDIR\vantum.exe" "--fast" "--cache=512"
+  createShortCut "$SMPROGRAMS\${APPNAME}\Attach.lnk" "$INSTDIR\vantum.exe" "attach" "" ""
   createShortCut "$SMPROGRAMS\${APPNAME}\Uninstall.lnk" "$INSTDIR\uninstall.exe" "" "" ""
 
   # Firewall - remove rules (if exists)
-  SimpleFC::AdvRemoveRule "pirl incoming peers (TCP:30303)"
-  SimpleFC::AdvRemoveRule "pirl outgoing peers (TCP:30303)"
-  SimpleFC::AdvRemoveRule "pirl UDP discovery (UDP:30303)"
+  SimpleFC::AdvRemoveRule "vantum incoming peers (TCP:30303)"
+  SimpleFC::AdvRemoveRule "vantum outgoing peers (TCP:30303)"
+  SimpleFC::AdvRemoveRule "vantum UDP discovery (UDP:30303)"
 
   # Firewall - add rules
-  SimpleFC::AdvAddRule "pirl incoming peers (TCP:30303)" ""  6 1 1 2147483647 1 "$INSTDIR\pirl.exe" "" "" "Ethereum" 30303 "" "" ""
-  SimpleFC::AdvAddRule "pirl outgoing peers (TCP:30303)" ""  6 2 1 2147483647 1 "$INSTDIR\pirl.exe" "" "" "Ethereum" "" 30303 "" ""
-  SimpleFC::AdvAddRule "pirl UDP discovery (UDP:30303)" "" 17 2 1 2147483647 1 "$INSTDIR\pirl.exe" "" "" "Ethereum" "" 30303 "" ""
+  SimpleFC::AdvAddRule "vantum incoming peers (TCP:30303)" ""  6 1 1 2147483647 1 "$INSTDIR\vantum.exe" "" "" "Ethereum" 30303 "" "" ""
+  SimpleFC::AdvAddRule "vantum outgoing peers (TCP:30303)" ""  6 2 1 2147483647 1 "$INSTDIR\vantum.exe" "" "" "Ethereum" "" 30303 "" ""
+  SimpleFC::AdvAddRule "vantum UDP discovery (UDP:30303)" "" 17 2 1 2147483647 1 "$INSTDIR\vantum.exe" "" "" "Ethereum" "" 30303 "" ""
 
   # Set default IPC endpoint (https://github.com/ethereum/EIPs/issues/147)
-  ${EnvVarUpdate} $0 "ETHEREUM_SOCKET" "R" "HKLM" "\\.\pipe\pirl.ipc"
-  ${EnvVarUpdate} $0 "ETHEREUM_SOCKET" "A" "HKLM" "\\.\pipe\pirl.ipc"
+  ${EnvVarUpdate} $0 "ETHEREUM_SOCKET" "R" "HKLM" "\\.\pipe\vantum.ipc"
+  ${EnvVarUpdate} $0 "ETHEREUM_SOCKET" "A" "HKLM" "\\.\pipe\vantum.ipc"
 
   # Add instdir to PATH
   Push "$INSTDIR"

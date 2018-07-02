@@ -29,8 +29,8 @@
 # - sign installer
 CRCCheck on
 
-!define GROUPNAME "Pirl"
-!define APPNAME "Pirl"
+!define GROUPNAME "Vantum"
+!define APPNAME "Vantum"
 !define DESCRIPTION "Official Go implementation of the Ethereum protocol"
 !addplugindir .\
 

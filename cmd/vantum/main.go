@@ -40,7 +40,7 @@ import (
 )
 
 const (
-	clientIdentifier = "pirl" // Client identifier to advertise over the network
+	clientIdentifier = "vantum" // Client identifier to advertise over the network
 )
 
 var (

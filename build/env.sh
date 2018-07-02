@@ -10,11 +10,11 @@ fi
 # Create fake Go workspace if it doesn't exist yet.
 workspace="$PWD/build/_workspace"
 root="$PWD"
-ethdir="$workspace/src/github.com/pirl"
-if [ ! -L "$ethdir/pirl" ]; then
+ethdir="$workspace/src/github.com/vantum"
+if [ ! -L "$ethdir/vantum" ]; then
     mkdir -p "$ethdir"
     cd "$ethdir"
-    ln -s ../../../../../. pirl
+    ln -s ../../../../../. vantum
     cd "$root"
 fi
 
@@ -23,8 +23,8 @@ GOPATH="$workspace"
 export GOPATH
 
 # Run the command inside the workspace.
-cd "$ethdir/pirl"
-PWD="$ethdir/pirl"
+cd "$ethdir/vantum"
+PWD="$ethdir/vantum"
 
 # Launch the arguments with the configured environment.
 exec "$@"

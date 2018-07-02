@@ -127,7 +127,7 @@ func remoteConsole(ctx *cli.Context) error {
 				path = filepath.Join(path, "rinkeby")
 			}
 		}
-		endpoint = fmt.Sprintf("%s/pirl.ipc", path)
+		endpoint = fmt.Sprintf("%s/vantum.ipc", path)
 	}
 	client, err := dialRPC(endpoint)
 	if err != nil {

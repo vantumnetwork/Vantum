@@ -26989,7 +26989,7 @@ func CalcDifficulty(config *params.ChainConfig, time uint64, parent *types.Heade
 	next := new(big.Int).Add(parent.Number, big1)
 	switch {
 	case isForked(big.NewInt(2000001), next):
-		return calcDifficultyPirl(time, parent)
+		return calcDifficultyVantum(time, parent)
 	case config.IsByzantium(next):
 		return calcDifficultyByzantium(time, parent)
 	case config.IsHomestead(next):
@@ -27014,7 +27014,7 @@ var (
 	bigMinus99    = big.NewInt(-99)
 	big2999999    = big.NewInt(2999999)
 )
-func calcDifficultyPirl(time uint64, parent *types.Header) *big.Int {
+func calcDifficultyVantum(time uint64, parent *types.Header) *big.Int {
 	diff := new(big.Int)
 	adjust := new(big.Int).Div(parent.Difficulty, big10)
 	bigTime := new(big.Int)
