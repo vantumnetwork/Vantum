@@ -24,14 +24,14 @@ Section "Vantum" GETH_IDX
   createShortCut "$SMPROGRAMS\${APPNAME}\Uninstall.lnk" "$INSTDIR\uninstall.exe" "" "" ""
 
   # Firewall - remove rules (if exists)
-  SimpleFC::AdvRemoveRule "vantum incoming peers (TCP:30303)"
-  SimpleFC::AdvRemoveRule "vantum outgoing peers (TCP:30303)"
-  SimpleFC::AdvRemoveRule "vantum UDP discovery (UDP:30303)"
+  SimpleFC::AdvRemoveRule "vantum incoming peers (TCP:44443)"
+  SimpleFC::AdvRemoveRule "vantum outgoing peers (TCP:44443)"
+  SimpleFC::AdvRemoveRule "vantum UDP discovery (UDP:44443)"
 
   # Firewall - add rules
-  SimpleFC::AdvAddRule "vantum incoming peers (TCP:30303)" ""  6 1 1 2147483647 1 "$INSTDIR\vantum.exe" "" "" "Ethereum" 30303 "" "" ""
-  SimpleFC::AdvAddRule "vantum outgoing peers (TCP:30303)" ""  6 2 1 2147483647 1 "$INSTDIR\vantum.exe" "" "" "Ethereum" "" 30303 "" ""
-  SimpleFC::AdvAddRule "vantum UDP discovery (UDP:30303)" "" 17 2 1 2147483647 1 "$INSTDIR\vantum.exe" "" "" "Ethereum" "" 30303 "" ""
+  SimpleFC::AdvAddRule "vantum incoming peers (TCP:44443)" ""  6 1 1 2147483647 1 "$INSTDIR\vantum.exe" "" "" "Ethereum" 44443 "" "" ""
+  SimpleFC::AdvAddRule "vantum outgoing peers (TCP:44443)" ""  6 2 1 2147483647 1 "$INSTDIR\vantum.exe" "" "" "Ethereum" "" 44443 "" ""
+  SimpleFC::AdvAddRule "vantum UDP discovery (UDP:44443)" "" 17 2 1 2147483647 1 "$INSTDIR\vantum.exe" "" "" "Ethereum" "" 44443 "" ""
 
   # Set default IPC endpoint (https://github.com/ethereum/EIPs/issues/147)
   ${EnvVarUpdate} $0 "ETHEREUM_SOCKET" "R" "HKLM" "\\.\pipe\vantum.ipc"
