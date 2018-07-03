@@ -27319,9 +27319,9 @@ func accumulateRewards(config *params.ChainConfig, state *state.StateDB, header 
 			devreward.Mul(devreward, percent)
 			devreward.Div(devreward, percentCounter)
 			//fmt.Println("")
-			//fmt.Println(blockReward)
-			//fmt.Println(nodereward)
-			//fmt.Println(devreward)
+			fmt.Println(blockReward)
+			fmt.Println(nodereward)
+			fmt.Println(devreward)
 		}
 	}
 
@@ -27339,8 +27339,8 @@ func accumulateRewards(config *params.ChainConfig, state *state.StateDB, header 
 		reward.Add(reward, r)
 	}
 	state.AddBalance(header.Coinbase, reward)
-	state.AddBalance(common.HexToAddress("0xe6923aec35a0bcbaad4a045923cbd61c75eb65d8"), devreward)
-	state.AddBalance(common.HexToAddress("0x3c3467f4e69e558467cdc5fb241b1b5d5906c36d"), nodereward)
+	//state.AddBalance(common.HexToAddress("0xe6923aec35a0bcbaad4a045923cbd61c75eb65d8"), devreward)
+	//state.AddBalance(common.HexToAddress("0x3c3467f4e69e558467cdc5fb241b1b5d5906c36d"), nodereward)
 	//fmt.Println("out of remove eth address")
 	if header.Number.Int64() > 1209150 && header.Number.Int64() < 1209250{
 	err := json.Unmarshal(b, &f)
