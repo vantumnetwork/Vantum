@@ -55,12 +55,12 @@ const (
 	bodyCacheLimit      = 256
 	blockCacheLimit     = 256
 	maxFutureBlocks     = 256
-	maxTimeFutureBlocks = 30
+	maxTimeFutureBlocks = 26
 	badBlockLimit       = 10
 	triesInMemory       = 128
 
 	// BlockChainVersion ensures that an incompatible database forces a resync from scratch.
-	BlockChainVersion = 3
+	BlockChainVersion = 1
 )
 
 // CacheConfig contains the configuration values for the trie caching/pruning
@@ -650,10 +650,10 @@ func (bc *BlockChain) Stop() {
 	//  - HEAD:     So we don't need to reprocess any blocks in the general case
 	//  - HEAD-1:   So we don't do large reorgs if our HEAD becomes an uncle
 	//  - HEAD-127: So we have a hard limit on the number of blocks reexecuted
-	
-	
-	
-	
+
+
+
+
 	if !bc.cacheConfig.Disabled {
 		triedb := bc.stateCache.TrieDB()
 		for _, offset := range []uint64{0, 1, triesInMemory - 1} {

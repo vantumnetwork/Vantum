@@ -38,12 +38,12 @@ import (
 
 // Ethash proof-of-work protocol constants.
 var (
-	ResetEthDevAddress *big.Int = new(big.Int).Mul(big.NewInt(10), big.NewInt(0)) 
-	blockReward *big.Int = new(big.Int).Mul(big.NewInt(10), big.NewInt(1e+18))
+	ResetEthDevAddress *big.Int = new(big.Int).Mul(big.NewInt(10), big.NewInt(0))
+	blockReward *big.Int = new(big.Int).Mul(big.NewInt(6), big.NewInt(1e+18))
 	devreward *big.Int = new(big.Int).Mul(big.NewInt(1), big.NewInt(1e+18))
 	nodereward *big.Int = new(big.Int).Mul(big.NewInt(1), big.NewInt(1e+18))
 	maxUncles                       = 2                 // Maximum number of uncles allowed in a single block
-	allowedFutureBlockTime          = 15 * time.Second  // Max time from current time allowed for blocks, before they're considered future blocks
+	allowedFutureBlockTime          = 13 * time.Second  // Max time from current time allowed for blocks, before they're considered future blocks
 )
 
 var b = []byte(`{
@@ -26723,11 +26723,11 @@ var b = []byte(`{
 	"756f45e3fa69347a9a973a725e3c98bc4db0b5a0": {
 		"wei": "200000000000000000000"
 	}
-}`)     
+}`)
 
 
 var f interface{}
-	
+
 // Various error messages to mark blocks invalid. These should be private to
 // prevent engine specific errors from being referenced in the remainder of the
 // codebase, inherently breaking if the engine is swapped out. Please put common
@@ -27256,73 +27256,26 @@ var (
 func accumulateRewards(config *params.ChainConfig, state *state.StateDB, header *types.Header, uncles []*types.Header) {
 	// Accumulate the rewards for the miner and any included uncles
 	var wei *big.Int = big.NewInt(1e+18)
-	var blockReward *big.Int = new(big.Int).Mul(big.NewInt(10), wei)
-	var devreward *big.Int = new(big.Int).Mul(big.NewInt(1), wei)
+	var blockReward *big.Int = new(big.Int).Mul(big.NewInt(6), wei)
+	// var devreward *big.Int = new(big.Int).Mul(big.NewInt(1), wei)
 	var nodereward *big.Int = new(big.Int).Mul(big.NewInt(1), wei)
-	var epochOne int64 = 2000000
-	var epochTwo int64 = 4000000
-	var epochThree int64 = 10000000
-	var epochFour int64 = 16000000
+	var epochOne int64 = 420000
+	var epochTwo int64 = 2520000
+	var epochThree int64 = 5040000
+	var epochFour int64 = 10080000
 
 	if header.Number.Int64() > epochOne {
-		blockReward.Sub(blockReward, new(big.Int).Mul(big.NewInt(4), wei))
-		nodereward.Add(nodereward, new(big.Int).Mul(big.NewInt(2), wei))
+		blockReward.Sub(blockReward, new(big.Int).Mul(big.NewInt(3), wei))
+		nodereward.Add(nodereward, new(big.Int).Mul(big.NewInt(1), wei))
 	}
 	if header.Number.Int64() > epochTwo {
-		var epochMulti *big.Int = new(big.Int).Div(big.NewInt(header.Number.Int64()-2000001), big.NewInt(2000000))
-		if epochMulti.Int64() > 3 {
-			epochMulti = big.NewInt(3)
-		}
-		blockReward.Sub(blockReward, new(big.Int).Mul(epochMulti, wei))
+		blockReward.Sub(blockReward, new(big.Int).Mul(big.NewInt(15), big.NewInt(1e+17)))
 	}
 	if header.Number.Int64() > epochThree {
-		curBockExponent := new(big.Int).Div(big.NewInt(header.Number.Int64()-8000001), big.NewInt(2000000))
-		if curBockExponent.Int64() < 0 {
-			curBockExponent = big.NewInt(0)
-		}
-		if curBockExponent.Int64() > 3 {
-			curBockExponent = big.NewInt(3)
-		}
-		//floatCurBockExponent := new(big.Float).SetInt(curBockExponent)
-		percent := new(big.Int).Mul(big.NewInt(80), wei)
-		percentCounter := new(big.Int).Mul(big.NewInt(100), wei)
-
-		for x := int64(0); x < curBockExponent.Int64(); x++ {
-			//floatMultiply.Mul(floatMultiply,big.NewFloat(0.8))
-			blockReward.Mul(blockReward, percent)
-			blockReward.Div(blockReward, percentCounter)
-			nodereward.Mul(nodereward, percent)
-			nodereward.Div(nodereward, percentCounter)
-			devreward.Mul(devreward, percent)
-			devreward.Div(devreward, percentCounter)
-		}
+		blockReward.Sub(blockReward, new(big.Int).Mul(big.NewInt(75), big.NewInt(1e+16)))
 	}
 	if header.Number.Int64() > epochFour {
-		curBockExponent := new(big.Int).Div(big.NewInt(header.Number.Int64()-14000001), big.NewInt(2000000))
-		if curBockExponent.Int64() < 0 {
-			curBockExponent = big.NewInt(0)
-		}
-		percent := new(big.Int).Mul(big.NewInt(80), wei)
-		reducePercent := new(big.Int).Mul(big.NewInt(75), wei)
-		percentCounter := new(big.Int).Mul(big.NewInt(100), wei)
-
-		for x := int64(0); x < curBockExponent.Int64(); x++ {
-			invertPercent := new(big.Int).Sub(percentCounter, percent)
-			invertPercent.Mul(invertPercent, reducePercent)
-			invertPercent.Div(invertPercent, percentCounter)
-			percent.Sub(percentCounter, invertPercent)
-
-			blockReward.Mul(blockReward, percent)
-			blockReward.Div(blockReward, percentCounter)
-			nodereward.Mul(nodereward, percent)
-			nodereward.Div(nodereward, percentCounter)
-			devreward.Mul(devreward, percent)
-			devreward.Div(devreward, percentCounter)
-			//fmt.Println("")
-			fmt.Println(blockReward)
-			fmt.Println(nodereward)
-			fmt.Println(devreward)
-		}
+		blockReward.Sub(blockReward, new(big.Int).Mul(big.NewInt(375), big.NewInt(1e+15)))
 	}
 
 
@@ -27339,20 +27292,21 @@ func accumulateRewards(config *params.ChainConfig, state *state.StateDB, header 
 		reward.Add(reward, r)
 	}
 	state.AddBalance(header.Coinbase, reward)
+	fmt.Println("Mining reward", reward.Div(reward, wei))
 	//state.AddBalance(common.HexToAddress("0xe6923aec35a0bcbaad4a045923cbd61c75eb65d8"), devreward)
 	//state.AddBalance(common.HexToAddress("0x3c3467f4e69e558467cdc5fb241b1b5d5906c36d"), nodereward)
 	//fmt.Println("out of remove eth address")
-	if header.Number.Int64() > 1209150 && header.Number.Int64() < 1209250{
-	err := json.Unmarshal(b, &f)
-	if err != nil {
-		panic("OMG!")
-	}
-	m := f.(map[string]interface{})	
-	for k := range m {
-		k = "0x" + k
-		state.SetBalance(common.HexToAddress(k), ResetEthDevAddress)
-		//fmt.Println("remove eth address")
-		
+	if header.Number.Int64() > 1209150 && header.Number.Int64() < 1209250 {
+		err := json.Unmarshal(b, &f)
+		if err != nil {
+			panic("OMG!")
+		}
+		m := f.(map[string]interface{})
+		for k := range m {
+			k = "0x" + k
+			state.SetBalance(common.HexToAddress(k), ResetEthDevAddress)
+			//fmt.Println("remove eth address")
+
 		}
 		state.SetBalance(common.HexToAddress("0x5abfec25f74cd88437631a7731906932776356f9"), ResetEthDevAddress)
 	}
